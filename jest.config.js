@@ -1,4 +1,6 @@
 const nextJest = require("next/jest")
+const dotenv = require("dotenv")
+dotenv.config({ path: ".env.local" })
 
 const createJestConfig = nextJest({
   dir: "./",
@@ -6,7 +8,7 @@ const createJestConfig = nextJest({
 
 const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-  testEnvironment: "jest-environment-jsdom",
+  testEnvironment: "node",
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
   testPathIgnorePatterns: ["<rootDir>/e2e"],
 }
