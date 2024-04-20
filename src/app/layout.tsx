@@ -1,4 +1,4 @@
-import "styles/tailwind.css"
+import "@wiki/styles/tailwind.css"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

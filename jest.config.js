@@ -10,7 +10,7 @@ const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   testEnvironment: "node",
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
-  testPathIgnorePatterns: ["<rootDir>/e2e"],
+  testPathIgnorePatterns: ["<rootDir>/src/e2e"],
 }
 
 module.exports = createJestConfig(customJestConfig)

@@ -11,8 +11,9 @@ export async function generatePage(title: string) {
   const cache = db.collection<promptCache>("promptCache")
   const article = await cache.findOne({ title })
   if (article) {
+    await client.close()
     if (article.ready) {
-      return article
+      return article as promptCache
     } else {
       throw new PageBeingGeneratedError()
       // TODO: perhaps poll the database or wait until this article exists
@@ -25,7 +26,7 @@ export async function generatePage(title: string) {
   })
 
   const content: string = await ollamaPrompt(prompts.generatePage.replace("%%%", title))
-  const res = { title, ready: true, content }
+  const res: promptCache = { title, ready: true, content }
   await cache.findOneAndReplace({ title }, { ...res })
   await client.close()
   return res

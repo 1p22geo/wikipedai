@@ -16,6 +16,7 @@ module.exports = {
     },
   },
   rules: {
+    "jest/no-conditional-expect": "off",
     "tailwindcss/no-custom-classname": "off",
     "testing-library/prefer-screen-queries": "off",
     "@next/next/no-html-link-for-pages": "off",
@@ -73,7 +74,7 @@ function getDirectoriesToSort() {
 }
 
 function getDirectories(path) {
-  return fs.readdirSync(path).filter(function (file) {
+  return fs.readdirSync(path).filter(function(file) {
     return fs.statSync(path + "/" + file).isDirectory()
   })
 }
