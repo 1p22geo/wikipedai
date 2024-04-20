@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb"
 import { PageBeingGeneratedError } from "./errors"
 import { generatePage } from "."
+import { findPage } from "../findPage"
 
 describe("lib/generatePage:async:ollama:mongo", () => {
   it("generates pages", async () => {
@@ -11,12 +12,16 @@ describe("lib/generatePage:async:ollama:mongo", () => {
     await cache.drop()
     await client.close()
 
-    const res = await generatePage("Poland")
-    expect(res.content).toMatch(/poland/i)
-    return
+    await generatePage("Poland")
+    while (true) {
+      const res = await findPage("Poland")
+      if (!res?.ready) continue
+      expect(res?.content).toMatch(/poland/i)
+      break
+    }
   }, 300000)
-  it("throws on two pages generated at the same time", async () => {
-    expect.assertions(2)
+  it("works with two pages generated at the same time", async () => {
+    expect.assertions(3)
     const client = new MongoClient(process.env.MONGO_URI ?? "")
     await client.connect()
     const db = client.db("wikipedai")
@@ -24,18 +29,18 @@ describe("lib/generatePage:async:ollama:mongo", () => {
     await cache.drop()
     await client.close()
 
-    const r = generatePage("Linux")
-    await new Promise((resolve) => {
-      setTimeout(resolve, 2000)
-    })
-    try {
-      await generatePage("Linux")
+    await generatePage("Linux")
+    await generatePage("Linux")
+    while (true) {
+      const res = await findPage("Linux")
+      if (!res?.ready) continue
+      expect(res?.content).toMatch(/linux/i)
+      break
     }
-    catch (e) {
-      expect(e).toBeInstanceOf(PageBeingGeneratedError)
-    }
-    const res = await r
-    expect(res.ready).toBeTruthy()
+    await generatePage("Linux")
+    const res = await findPage("Linux")
+    expect(res?.content).toMatch(/linux/i)
+    expect(res?.ready).toBeTruthy()
     return
   }, 300000)
 })

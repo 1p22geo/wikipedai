@@ -1,8 +1,6 @@
 import { MongoClient } from "mongodb"
 import { promptCache } from "@wiki/model/promptCache"
-import prompts from "@wiki/prompts/prompts.json"
-import { PageBeingGeneratedError } from "./errors"
-import { ollamaPrompt } from "../prompt"
+import { generate } from "./generate"
 
 export async function generatePage(title: string) {
   const client = new MongoClient(process.env.MONGO_URI ?? "")
@@ -12,22 +10,14 @@ export async function generatePage(title: string) {
   const article = await cache.findOne({ title })
   if (article) {
     await client.close()
-    if (article.ready) {
-      return article as promptCache
-    } else {
-      throw new PageBeingGeneratedError()
-      // TODO: perhaps poll the database or wait until this article exists
-    }
+    return;
   }
   await cache.insertOne({
     title,
     ready: false,
     content: undefined,
   })
-
-  const content: string = await ollamaPrompt(prompts.generatePage.replace("%%%", title))
-  const res: promptCache = { title, ready: true, content }
-  await cache.findOneAndReplace({ title }, { ...res })
   await client.close()
-  return res
+
+  generate(title)
 }
