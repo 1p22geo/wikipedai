@@ -1,4 +1,4 @@
-import { ollamaPrompt } from ".";
+import { ollamaPrompt } from "."
 describe("lib/prompt:async:ollama", () => {
   it("sends prompts", async () => {
     const res = await ollamaPrompt("What's 2+2")

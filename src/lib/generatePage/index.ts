@@ -10,7 +10,7 @@ export async function generatePage(title: string) {
   const article = await cache.findOne({ title })
   if (article) {
     await client.close()
-    return;
+    return
   }
   await cache.insertOne({
     title,

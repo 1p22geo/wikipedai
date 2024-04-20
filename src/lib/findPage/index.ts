@@ -1,5 +1,5 @@
-import { promptCache } from "@wiki/model/promptCache"
 import { MongoClient } from "mongodb"
+import { promptCache } from "@wiki/model/promptCache"
 
 export async function findPage(title: string) {
   const client = new MongoClient(process.env.MONGO_URI ?? "")

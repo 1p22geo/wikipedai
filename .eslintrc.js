@@ -74,7 +74,7 @@ function getDirectoriesToSort() {
 }
 
 function getDirectories(path) {
-  return fs.readdirSync(path).filter(function(file) {
+  return fs.readdirSync(path).filter(function (file) {
     return fs.statSync(path + "/" + file).isDirectory()
   })
 }
