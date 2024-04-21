@@ -1,8 +1,8 @@
+import { Metadata } from "next"
 import { revalidateTag } from "next/cache"
 import { ArticleEditor } from "@wiki/components/ArticleEditor"
 import { updatePage } from "@wiki/lib/updatePage"
 import { promptCache } from "@wiki/model/promptCache"
-import { Metadata } from "next"
 export const metadata: Metadata = {
   title: "WikipedAI | editing article",
 }
@@ -26,8 +26,8 @@ export default async function Page({ params: { title } }: { params: { title: str
             const content = (form.get("content") ?? "") as string
             await updatePage(title, {
               $set: {
-                content
-              }
+                content,
+              },
             })
             revalidateTag(title)
           }}

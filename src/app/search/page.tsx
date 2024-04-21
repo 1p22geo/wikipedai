@@ -1,6 +1,6 @@
+import { Metadata } from "next"
 import Markdown from "react-markdown"
 import { promptCache } from "@wiki/model/promptCache"
-import { Metadata } from "next"
 export const metadata: Metadata = {
   title: "WikipedAI | Search",
 }
@@ -24,9 +24,7 @@ export default async function Page({ searchParams }: { searchParams: { q: string
               <li key={q.title}>
                 <a href={`/p/${q.title}`} className="group flex w-[600px] flex-col items-start p-2">
                   <h2 className="text-2xl font-bold group-hover:underline">{q.title}</h2>
-                  {q.ready ?
-                    <Markdown>{`${q.content?.slice(0, 200)}...`}</Markdown> : <>Generating...</>
-                  }
+                  {q.ready ? <Markdown>{`${q.content?.slice(0, 200)}...`}</Markdown> : <>Generating...</>}
                 </a>
               </li>
             )

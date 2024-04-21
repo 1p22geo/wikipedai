@@ -1,8 +1,8 @@
+import { Metadata } from "next"
 import { revalidateTag } from "next/cache"
 import Markdown from "react-markdown"
 import { ShareButton } from "@wiki/components/ShareButton"
 import { promptCache } from "@wiki/model/promptCache"
-import { Metadata } from "next"
 export const metadata: Metadata = {
   title: "WikipedAI",
 }
