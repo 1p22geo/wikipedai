@@ -2,7 +2,10 @@ import { revalidateTag } from "next/cache"
 import { ArticleEditor } from "@wiki/components/ArticleEditor"
 import { updatePage } from "@wiki/lib/updatePage"
 import { promptCache } from "@wiki/model/promptCache"
-
+import { Metadata } from "next"
+export const metadata: Metadata = {
+  title: "WikipedAI | editing article",
+}
 export default async function Page({ params: { title } }: { params: { title: string } }) {
   const res = (await (
     await fetch(`${process.env.URL_BASE}/api/page/${title}`, { next: { tags: [title] } })

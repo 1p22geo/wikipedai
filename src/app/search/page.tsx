@@ -1,6 +1,9 @@
 import Markdown from "react-markdown"
 import { promptCache } from "@wiki/model/promptCache"
-
+import { Metadata } from "next"
+export const metadata: Metadata = {
+  title: "WikipedAI | Search",
+}
 export default async function Page({ searchParams }: { searchParams: { q: string } }) {
   const query = searchParams.q ?? undefined
   const url = new URL(`${process.env.URL_BASE}/api/search`)

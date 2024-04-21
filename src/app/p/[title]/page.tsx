@@ -2,7 +2,10 @@ import { revalidateTag } from "next/cache"
 import Markdown from "react-markdown"
 import { ShareButton } from "@wiki/components/ShareButton"
 import { promptCache } from "@wiki/model/promptCache"
-
+import { Metadata } from "next"
+export const metadata: Metadata = {
+  title: "WikipedAI",
+}
 export default async function Page({ params: { title } }: { params: { title: string } }) {
   const res = (await (
     await fetch(`${process.env.URL_BASE}/api/page/${title}`, { next: { tags: [title] } })
