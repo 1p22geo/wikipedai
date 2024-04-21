@@ -10,7 +10,7 @@ export async function generate(title: string) {
   const cache = db.collection<promptCache>("promptCache")
 
   let content: string = await ollamaPrompt(prompts.generatePage.replace("%%%", title))
-  if (content.startsWith("```") && content.endsWith("```")) {
+  if (content.endsWith("```")) {
     content = content.split("\n").slice(1, -1).join("\n")
   }
   const res: promptCache = { title, ready: true, content }

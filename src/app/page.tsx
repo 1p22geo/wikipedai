@@ -9,13 +9,11 @@ export default function Web() {
     <>
       <section className="bg-white dark:bg-gray-900">
         <div className="mx-auto grid max-w-screen-xl px-4 py-8 text-center lg:py-16">
-          <div className="mx-auto place-self-center flex flex-col items-center">
+          <div className="mx-auto flex flex-col items-center place-self-center">
             <h1 className="mb-4 max-w-2xl text-4xl font-extrabold leading-none tracking-tight dark:text-white md:text-5xl xl:text-6xl">
               WikipedAI
             </h1>
-            <h2 className="font-bold text-xl mb-8 tracking-widest">
-              no, it&apos;s not a typo
-            </h2>
+            <h2 className="mb-8 text-xl font-bold tracking-widest">no, it&apos;s not a typo</h2>
             <p className="mb-6 max-w-2xl font-light text-gray-500 dark:text-gray-400 md:text-lg lg:mb-8 lg:text-xl">
               Like Wikipedia, but Ollama and AI-generated
             </p>
@@ -30,7 +28,6 @@ export default function Web() {
                 <span className="-ml-1 mt-[1.2px]">&gt;</span>
               </label>
             </form>
-
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import { revalidateTag } from "next/cache"
-import Markdown from "react-markdown"
-import { ShareButton } from "@wiki/components/ShareButton"
+import { ArticleEditor } from "@wiki/components/ArticleEditor"
+import { updatePage } from "@wiki/lib/updatePage"
 import { promptCache } from "@wiki/model/promptCache"
 
 export default async function Page({ params: { title } }: { params: { title: string } }) {
@@ -11,14 +11,25 @@ export default async function Page({ params: { title } }: { params: { title: str
     return (
       <>
         <div className="flex flex-row items-center gap-2">
-          <ShareButton url={`${process.env.URL_BASE}/p/${title}`}>[share]</ShareButton>
-          <a className="cursor-pointer hover:underline" href={`/edit/${title}`}>
-            [edit]
+          Editing: {title}
+          <a className="cursor-pointer hover:underline" href={`/p/${title}`}>
+            [view]
           </a>
         </div>
-        <div className="prose prose-slate">
-          <Markdown>{res.content}</Markdown>
-        </div>
+        <ArticleEditor
+          article={res}
+          save={async (form: FormData) => {
+            "use server"
+            const content = (form.get("content") ?? "") as string
+            await updatePage(title, {
+              $set: {
+                content
+              }
+            })
+            revalidateTag(title)
+          }}
+          returnLink={`${process.env.URL_BASE}/p/${title}`}
+        />
       </>
     )
   } else {
