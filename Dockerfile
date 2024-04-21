@@ -11,6 +11,12 @@ WORKDIR /app
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN echo 'nodeLinker: "node-modules"' > ./.yarnrc.yml
 RUN \
+    if [ -f yarn.lock ]; then yarn workspaces focus --production -A; \
+    elif [ -f package-lock.json ]; then npm ci --production; \
+    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+    else echo "Lockfile not found." && exit 1; \
+    fi
+RUN \
     if [ -f yarn.lock ]; then yarn install --immutable; \
     elif [ -f package-lock.json ]; then npm ci; \
     elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \

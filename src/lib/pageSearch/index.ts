@@ -1,4 +1,4 @@
-import { MongoClient, ObjectId } from "mongodb"
+import { MongoClient } from "mongodb"
 import { promptCache } from "@wiki/model/promptCache"
 
 export async function pageSearch(query: string) {
@@ -11,13 +11,13 @@ export async function pageSearch(query: string) {
   const articles: string[] = []
 
   for await (const doc of cache.find({
-    title: { $regex: query }
+    title: { $regex: query },
   })) {
     res.push(doc)
     articles.push(doc._id.toString())
   }
   for await (const doc of cache.find({
-    content: { $regex: query }
+    content: { $regex: query },
   })) {
     console.log(doc._id)
     console.log(articles)
