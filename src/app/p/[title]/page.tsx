@@ -1,8 +1,9 @@
+import { revalidateTag } from "next/cache"
 import Markdown from "react-markdown"
 import { promptCache } from "@wiki/model/promptCache"
 
 export default async function Page({ params: { title } }: { params: { title: string } }) {
-  const res = (await (await fetch(`${process.env.URL_BASE}/api/page/${title}`)).json()) as promptCache
+  const res = (await (await fetch(`${process.env.URL_BASE}/api/page/${title}`, { next: { tags: [title] } })).json()) as promptCache
   if (res.ready) {
     return (
       <div className="prose prose-slate">
@@ -10,6 +11,7 @@ export default async function Page({ params: { title } }: { params: { title: str
       </div>
     )
   } else {
+    revalidateTag(title)
     return (
       <div className="flex flex-col items-center gap-8">
         <h1 className="text-center text-xl">Please wait, we are generating your article</h1>

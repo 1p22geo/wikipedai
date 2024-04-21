@@ -10,7 +10,7 @@ export default async function Page({ searchParams }: { searchParams: { q: string
     <ul>
       <li>
         <a href={`/p/${query}`} className="group flex w-[600px] flex-col items-start p-2">
-          <h2 className="mb-8 text-2xl font-bold group-hover:underline">Generate article: &lt;{query}&rt;</h2>
+          <h2 className="mb-8 text-2xl font-bold group-hover:underline">Generate article: &lt;{query}&gt;</h2>
         </a>
       </li>
       {res.length ? (
