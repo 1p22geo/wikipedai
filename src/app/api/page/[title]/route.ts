@@ -6,6 +6,6 @@ export async function GET(request: NextRequest, { params: { title } }: { params:
   await generatePage(title)
   const page = await findPage(title)
 
-  if (page) return Response.json({ page })
+  if (page) return Response.json({ ...page })
   else return Response.json({ error: "Something went wrong" }, { status: 500 })
 }

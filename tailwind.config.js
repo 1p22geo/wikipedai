@@ -6,6 +6,7 @@ const defaultTheme = require("tailwindcss/defaultTheme")
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "class",
+  plugins: [require("@tailwindcss/typography")],
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -83,7 +84,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
   future: {
     hoverOnlyWhenSupported: true,
   },
