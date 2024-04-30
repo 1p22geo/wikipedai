@@ -5,7 +5,6 @@ export function ollamaPrompt(req: string, system?: string) {
     fetch(new URL("/api/generate", process.env.OLLAMA_URI), {
       body: JSON.stringify({
         model: "mistral",
-        stream: false,
         raw: false,
         system: system,
         prompt: req,
@@ -13,9 +12,15 @@ export function ollamaPrompt(req: string, system?: string) {
       method: "POST",
     }).then((res) => {
       if (!res.ok) reject()
-      res.json().then((_js) => {
-        const json = _js as ollamaResponse
-        resolve(json.response)
+      res.text().then((_res: string) => {
+        const _arr = _res.split("\n").join(",")
+        const _json = `[${_arr.substring(0, _arr.length - 1)}]`
+        let answer = ""
+        const _js = JSON.parse(_json) as { response: string }[]
+        _js.forEach(elem => {
+          answer += elem.response
+        });
+        resolve(answer)
       })
     })
   })
