@@ -1,13 +1,9 @@
-import prompts from "@wiki/prompts/prompts.json"
-import { ollamaPrompt } from "../prompt"
+import { generateArticle } from "./util/generateArticle"
 import { savePage } from "../savePage"
 
 export async function generate(title: string) {
 
-  let content: string = await ollamaPrompt(prompts.generatePage.replace("%%%", title))
-  if (content.endsWith("```")) {
-    content = content.split("\n").slice(1, -1).join("\n")
-  }
+  let content = await generateArticle(title, 1, 2)
 
   return await savePage(title, content)
 }
