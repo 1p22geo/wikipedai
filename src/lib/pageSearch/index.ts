@@ -19,8 +19,6 @@ export async function pageSearch(query: string) {
   for await (const doc of cache.find({
     content: { $regex: query },
   })) {
-    console.log(doc._id)
-    console.log(articles)
     if (!articles.includes(doc._id.toString())) {
       res.push(doc)
       articles.push(doc._id.toString())
