@@ -1,4 +1,4 @@
-import { ollamaRequest, ollamaResponse } from "@wiki/model/ollama"
+import { ollamaRequest } from "@wiki/model/ollama"
 
 export function ollamaPrompt(req: string, system?: string) {
   return new Promise<string>((resolve, reject) => {

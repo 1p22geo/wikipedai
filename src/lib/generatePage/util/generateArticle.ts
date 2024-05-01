@@ -1,38 +1,32 @@
 import { ollamaPrompt } from "@wiki/lib/prompt"
+import prompts from "@wiki/prompts/prompts.json"
 import { generateOutline } from "./generateOutline"
 
 export async function generateArticle(title: string, retries_article: number, retries_outline: number) {
   const outline = await generateOutline(title, retries_outline)
-  const system = `
-You are an experienced Wikpedia writer.
-Write long, informative and creative articles.
-`
-  const prompt = `
-Create an article in Markdown with the style of Wikipedia.
-Write a long and informative article.
-Do not use links or references.
-The topic is "${title}".
-Here is an outline of the article.
-\`\`\`markdown
-${outline}
-\`\`\`
-`
+  const system = prompts.generateArticle.system
+  const prompt = prompts.generateArticle.prompt.replace("%1%", title).replace("%2%", outline)
   let responses = []
 
   for (let n = 0; n < retries_article; n++) {
     try {
 
-      let res = await ollamaPrompt(system, prompt)
+      let res = await ollamaPrompt(prompt, system)
+      console.log(res)
       try {
-        res = res.split("```")[1] || res
+        if (!res.split("\n")[0]?.match(/#/)) {
+          res = res.split("```").splice(1, res.split("\n").length - 2).join("\n") || res
+        }
       }
       catch { }
+      console.log(res)
       try {
-        if (res.startsWith("markdown")) {
+        if (res.split("\n")[0]?.match(/markdown/)) {
           res = res.split("\n").slice(1).join("\n") || res
         }
       }
       catch { }
+      console.log(res)
       responses.push(res)
       console.log(`Generated prompt ${n} of stage 2`)
     }
