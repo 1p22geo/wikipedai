@@ -7,7 +7,7 @@ export async function GET(request: NextRequest, { params: { title } }: { params:
     console.warn(`Article title ${title} rejected, not generating.`)
     return Response.json({ error: "Forbidden characters detected" }, { status: 400 })
   }
-  const article = title.replace("_", " ").trim()
+  const article = decodeURI(title).replace("_", " ").trim()
   await generatePage(article)
   const page = await findPage(article)
 

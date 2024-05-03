@@ -10,34 +10,17 @@ export async function generateArticle(title: string, retries_article: number, re
 
   for (let n = 0; n < retries_article; n++) {
     try {
-
       let res = await ollamaPrompt(prompt, {
         system,
         model: prompts.generateArticle.model,
         options: {
           seed: Math.random(),
-          temperature: 0.2
-        }
+          temperature: 0.1,
+        },
       })
-      try {
-        if (!res.split("\n")[0]?.match(/#/)) {
-          res = res.split("```").splice(1, res.split("\n").length - 2).join("\n") || res
-        }
-      }
-      catch { }
-      try {
-        if (res.split("\n")[0]?.match(/markdown/)) {
-          res = res.split("\n").slice(1).join("\n") || res
-        }
-      }
-      catch { }
       responses.push(res)
-      console.log(`Generated prompt ${n} of stage 2`)
-    }
-    catch {
-      console.warn(`Error generating prompt ${n} of stage 2`)
-    }
+    } catch { }
   }
   responses = responses.sort((a: string, b: string) => b.length - a.length)
-  return responses[0] || ''
+  return responses[0] || ""
 }

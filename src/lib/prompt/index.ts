@@ -1,19 +1,22 @@
 import { ollamaRequest } from "@wiki/model/ollama"
 
-export function ollamaPrompt(prompt: string, options?: {
-  model?: string,
-  system?: string
+export function ollamaPrompt(
+  prompt: string,
   options?: {
-    seed: number,
-    temperature: number
+    model?: string
+    system?: string
+    options?: {
+      seed: number
+      temperature: number
+    }
   }
-}) {
+) {
   return new Promise<string>((resolve, reject) => {
     const req: ollamaRequest = {
       raw: false,
       prompt: prompt,
       model: options?.model || "mistral",
-      ...options
+      ...options,
     }
     fetch(new URL("/api/generate", process.env.OLLAMA_URI), {
       body: JSON.stringify(req),
@@ -25,9 +28,9 @@ export function ollamaPrompt(prompt: string, options?: {
         const _json = `[${_arr.substring(0, _arr.length - 1)}]`
         let answer = ""
         const _js = JSON.parse(_json) as { response: string }[]
-        _js.forEach(elem => {
+        _js.forEach((elem) => {
           answer += elem.response
-        });
+        })
         resolve(answer)
       })
     })

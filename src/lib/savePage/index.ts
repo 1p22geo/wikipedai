@@ -10,5 +10,4 @@ export async function savePage(title: string, content: string) {
   await cache.findOneAndReplace({ title }, { ...res })
   await client.close()
   return res
-
 }

@@ -24,7 +24,7 @@ export default async function Page({ params: { title } }: { params: { title: str
           save={async (form: FormData) => {
             "use server"
             const content = (form.get("content") ?? "") as string
-            await updatePage(title, {
+            await updatePage(decodeURI(title), {
               $set: {
                 content,
               },
