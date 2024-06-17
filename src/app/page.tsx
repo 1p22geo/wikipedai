@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import Image from "next/image"
+import mainPageImage from "@wiki/media/logo.png"
 
 export const metadata: Metadata = {
   title: "WikipedAI",
@@ -11,7 +12,7 @@ export default function Web() {
       <section className="bg-white dark:bg-gray-900">
         <div className="mx-auto grid max-w-screen-xl px-4 py-8 text-center lg:py-16">
           <div className="mx-auto flex flex-col items-center place-self-center">
-            <Image alt="wikipedai logo" src="/logo.png" width={400} height={400}></Image>
+            <Image alt="wikipedai logo" src={mainPageImage} placeholder="blur" width={500} ></Image>
             <h1 className="mb-4 max-w-2xl text-4xl font-extrabold leading-none tracking-tight dark:text-white md:text-5xl xl:text-6xl">
               WikipedAI
             </h1>
